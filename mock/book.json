@@ -1,0 +1,30 @@
+[
+    {
+        "bookCover": "http://img-tailor.11222.cn/bcv/big/201709261752489381.jpg",
+        "bookName": "农家药女：富贵临门",
+        "bookInfo": "女军医重生农家女",
+        "bookPrice": 66.8,
+        "bookId": 1
+    },
+    {
+        "bookCover": "http://img-tailor.11222.cn/bcv/big/201810181410501538.jpg",
+        "bookName": "乡村超品小仙医",
+        "bookInfo": "山村小子会仙法，脚踩各路豪强；懂医术，能治百病，却无法治疗各色美女因他而起的相思病；",
+        "bookPrice": 56.9,
+        "bookId": 2
+    },
+    {
+        "bookCover": "http://img-tailor.11222.cn/bcv/big/201804271512516485.jpg",
+        "bookName": "套路总裁轻点爱",
+        "bookInfo": "跨国集团的总裁，黄金单身汉",
+        "bookPrice": 32.9,
+        "bookId": 3
+    },
+    {
+        "bookCover": "http://img-tailor.11222.cn/bcv/big/201702211614228011.jpg",
+        "bookName": "冥龙神尊",
+        "bookInfo": "斗元大陆，地尊大地横行，玄尊遨游天穹",
+        "bookPrice": 44.6,
+        "bookId": 4
+    }
+]
