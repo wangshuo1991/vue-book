@@ -22,3 +22,19 @@ export let getBooks = ()=>{
 export let removeBooks = (id)=>{
     return axios.delete(`/book?id=${id}`);
 }
+
+// 获取某一本图书
+export let findOneBook = (id) => {
+    return axios.get(`/book?id=${id}`);
+};
+
+// 修改图书的接口
+
+/*
+*@params  id -> 编号
+*@params  data -> 数据 请求体发送
+*@return {AxiosPromise<T>}
+*/
+export let updateBook = (id,data)=> {
+    return axios.put(`/book?id=${id}`,data)
+}

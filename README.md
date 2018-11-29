@@ -40,3 +40,8 @@ npm install
     - 在需要使用这个组件的父级中引用这个组件
   
 ## 实现页面的删除  list.vue (button)  
+
+
+## 修改页面的数据
+- api方面 通过url找到需要修改某一项 '/book?id=1',然后再通过主体传递需要修改的内容 比如 {bookName: 'one night',bookPrice: '88.9'}
+- 

@@ -44,9 +44,9 @@ http.createServer((req,res)=>{
         let id = parseInt(query.id);  // 取出的字符串
         switch (req.method) {
             case 'GET':
-            if(id){  //根据 id 查询数据
+            if(id>=0){  //根据 id 查询数据 查询某一个
                 read(function (books) {
-                    let book = books.filter((item)=>{return item.bookId==id});
+                    let book = books.find((item)=>{return item.bookId==id}); // find 找出符合条件的第一项
                     console.log(book);
                     if(!book) book={};
                     res.setHeader('Content-Type','application/json;charset=utf-8');// 注意编码
