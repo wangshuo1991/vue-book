@@ -3,7 +3,7 @@
       <Top>爱文书城</Top>
       <div class="content">
           <!-- 这里用 v-if v-else 实现loading 注意template是没有意义的 -->
-          <div v-if="loading" class="loading"></div>
+          <Loading v-if="loading"></Loading>
           <!-- 为了不增加标签 用template包裹起来内容 -->
           <template v-else>
             <MSwiper :swiperSlides="sliders"></MSwiper>
@@ -30,10 +30,11 @@
 
 import Top from '@/base/Top.vue'
 import MSwiper from '@/base/MSwiper.vue'
+import Loading from '@/base/Loading.vue'
 
 import {getAll} from '../api'
 export default {
-  components:{Top,MSwiper},
+  components:{Top,MSwiper,Loading},
   props:{},
   data(){
     return {
@@ -77,16 +78,6 @@ export default {
 <style lang="scss" scoped>
     .content {
         background: #f1f1f1;
-
-        .loading {
-           width: 160px;
-           height: 120px;
-           background: url('./timg.gif') no-repeat center center / 160px 120px; 
-           position: fixed;
-           top: 50%;
-           left: 50%;
-           transform: translate(-50%,-50%);
-        }
 
         .container {
             padding: 20px;
