@@ -17,18 +17,18 @@ export let getBooks = ()=>{
     return axios.get('/book');
 };
 
-// 删除某一本图书
+// 删除某一本图书   【删】
 
 export let removeBooks = (id)=>{
     return axios.delete(`/book?id=${id}`);
 }
 
-// 获取某一本图书
+// 获取某一本图书   【查】
 export let findOneBook = (id) => {
     return axios.get(`/book?id=${id}`);
 };
 
-// 修改图书的接口
+// 修改图书的接口   【改】
 
 /*
 *@params  id -> 编号
@@ -37,4 +37,10 @@ export let findOneBook = (id) => {
 */
 export let updateBook = (id,data)=> {
     return axios.put(`/book?id=${id}`,data)
+}
+
+
+// 
+export let getAll = ()=>{
+    return axios.all([getSliders(),getHotBooks()]); // 在获取轮播图和热门图书全部完毕之后
 }

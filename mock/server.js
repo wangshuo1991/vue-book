@@ -35,7 +35,10 @@ http.createServer((req,res)=>{
         read(function (books) {
             let hot = books.reverse().slice(0,4);
             res.setHeader('Content-Type','application/json;charset=utf-8');// 注意编码
-            res.end(JSON.stringify(hot));
+            setTimeout(() => {
+                res.end(JSON.stringify(hot));
+            }, 2000);
+            
         });
         return
     }
@@ -63,6 +66,23 @@ http.createServer((req,res)=>{
             case 'POST':
             break;
             case 'PUT':
+                if(id){ // 获取要修改的id
+                    let str = '';
+                    req.on('data',chunk=>{
+                        str+=chunk;
+                    });
+                    req.on('end',()=>{
+                        let book = json.parse(str);// book 要改为什么样子
+                        read(function (books) {
+                            books = books.map(item=>{
+                                if(item.bookId == id){ // 找到id相同的数据  
+                                    return book;
+                                }
+                                return item; // 其他书正常返回即可
+                            });
+                        });
+                    });
+                }
             break;
             case 'DELETE':
             //console.log(id);

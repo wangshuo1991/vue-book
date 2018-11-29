@@ -44,4 +44,8 @@ npm install
 
 ## 修改页面的数据
 - api方面 通过url找到需要修改某一项 '/book?id=1',然后再通过主体传递需要修改的内容 比如 {bookName: 'one night',bookPrice: '88.9'}
-- 
+
+
+## 添加 loading
+- 在api中添加一个getAll方法，里边同时请求 getSliders 和 getHotBooks 连个方法 （axios.all([getSliders(),getHotBooks()])）
+- 然后再home.vue 这个组件的methods中 只保留getAll 这一个方法，
