@@ -2,11 +2,17 @@
   <div id="app">
     <Tab></Tab>
     <!-- 这里是需要缓存的组件 -->
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
-    </keep-alive>
+    <transition name="fadeIn">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+    </transition>
+    
     <!-- 这里是不需要缓存的组件 -->
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <transition name="fadeIn">
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </transition>
+    
   </div>
 </template>
 
@@ -22,10 +28,25 @@ export default {
 </script>
 
 <style lang="scss">
+
+.fadeIn-enter {
+  opacity: 0;
+}
+
+.fadeIn-enter-active {
+  transition: all 1s linear;
+}
+
+.fadeIn-leave-active {
+  opacity: 0;
+}
+
+
 * {
   padding: 0;
   margin: 0;
 
+  
   ul,li {
     list-style: none;
   }

@@ -74,3 +74,20 @@ npm install
 <router-view v-if="!$route.meta.keepAlive"></router-view>
 
 ```
+
+## 切换组件之间的过渡动画
+transition 是过渡动画的标签，但是这个标签是需要加在keep-alive组件
+
+```
+
+ <transition name="fadeIn">
+    <keep-alive> 
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+ </transition>
+
+ <transition name="fadeIn">
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+ </transition>
+
+```
