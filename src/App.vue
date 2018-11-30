@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <Tab></Tab>
-    <router-view></router-view>
+    <!-- 这里是需要缓存的组件 -->
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <!-- 这里是不需要缓存的组件 -->
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
   </div>
 </template>
 

@@ -48,4 +48,29 @@ npm install
 
 ## 添加 loading
 - 在api中添加一个getAll方法，里边同时请求 getSliders 和 getHotBooks 连个方法 （axios.all([getSliders(),getHotBooks()])）
-- 然后再home.vue 这个组件的methods中 只保留getAll 这一个方法，
+- 然后再home.vue 这个组件的methods中 只保留getAll 这一个方法，getAll方法主要是等到这个页面所有数据全部取过来
+- 添加一个loading 组件，用 v-if 控制loading的显示隐藏，刚进入页面是显示，等到数据取过来，内容组件开始显示。loading隐藏；
+
+## 实现页面的缓存
+页面获取数据成功之后，切换页面不需要重新获取数据，浪费资源。要实现页面的缓存。
+【路由元信息】
+- 首先在路由配置中，在需要缓存组件的配置中，添加 "meta",比如在Home.vue中配置
+
+```
+{path: '/home',component: Home,meta: {keepAlive: true}} // 这个“meta”属性出现在$route中
+
+```
+
+- 然后找到home.vue 的坑 router-view ;也就是App.vue 中的 router-view 中，但是并不是每一个组件都需要缓存的 所以如下
+
+```
+<!-- 这里放的是需要被缓存的组件 -->
+
+<keep-alive> 
+    <router-view v-if="$route.meta.keepAlive"></router-view>
+</keep-alive>
+
+<!-- 这里是正常的组件 不需要被缓存的 -->
+<router-view v-if="!$route.meta.keepAlive"></router-view>
+
+```
