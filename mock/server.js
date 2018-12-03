@@ -16,9 +16,13 @@ function read(cb){
         }
     })
 };
+
+let pageSize = 5; // 每次下拉刷新 5 数据
 /* read(function (books) {
     console.log(books);
 }); */
+
+// 注意 取出的数据都是倒序的，因为默认最后边的数据是最新的，所以把最新的数据放在最前边
 http.createServer((req,res)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
@@ -26,6 +30,22 @@ http.createServer((req,res)=>{
     res.setHeader("X-Powered-By",' 3.2.1');
     if(req.method == "OPTIONS") return res.end(); /* 让 options请求 快速返回 */
     let {pathname,query} = url.parse(req.url,true); // true 把query转换成对象
+
+    if(pathname === '/page'){ //下拉加载的后台
+        let offset = parseInt(query.offset) || 0;// 拿到前端传递的值，page?offset=5
+        read(function (books) {
+            // 每次偏移量在原来的基础上 增加5 
+            let result = books.reverse().slice(offset,offset+pageSize); // 比如是 0-5 ，5-10 ， 10 - 15
+            let hasMore = true; // 默认有更多的数据
+            if(books.length<=offset+pageSize){ // 如果没有更多数据了
+                hasMore=false;
+            }
+            res.setHeader('Content-Type','application/json;charset=utf-8');
+            res.end(JSON.stringify({hasMore,books:result}));
+        });
+        return;
+    }
+
     if(pathname === '/sliders'){
         res.setHeader('Content-Type','application/json;charset=utf-8');
         res.end(JSON.stringify(sliders));
@@ -47,10 +67,10 @@ http.createServer((req,res)=>{
         let id = parseInt(query.id);  // 取出的字符串
         switch (req.method) {
             case 'GET':
-            if(id>=0){  //根据 id 查询数据 查询某一个
+            if(id && id>=0){  //根据 id 查询数据 查询某一个
                 read(function (books) {
                     let book = books.find((item)=>{return item.bookId==id}); // find 找出符合条件的第一项
-                    console.log(book);
+                    //console.log(book);
                     if(!book) book={};
                     res.setHeader('Content-Type','application/json;charset=utf-8');// 注意编码
                     res.end(JSON.stringify(book));

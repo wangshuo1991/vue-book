@@ -44,3 +44,9 @@ export let updateBook = (id,data)=> {
 export let getAll = ()=>{
     return axios.all([getSliders(),getHotBooks()]); // 在获取轮播图和热门图书全部完毕之后
 }
+
+// 下拉刷新
+// 根据偏移量 显示更多的数据  一次下拉刷新5条
+export let  pagination = (offset)=>{
+    return axios.get(`/page?offset=${offset}`);
+}

@@ -1,7 +1,8 @@
 <template>
   <div>
       <Top>图书列表</Top>
-      <div class="content">
+      <!-- 这个元素是内容的容器 往下边滑动 滑到底部就自动加载 （也就是下拉加载） -->
+      <div class="content" ref="content" @scroll.stop="pullDownLoadMore">
         <ul>
           <router-link 
           v-for="(book,index) in books" 
@@ -17,36 +18,98 @@
             </div>
           </router-link>
         </ul>
+        <div class="load-more" @click.stop="loadMore">
+          加载更多
+        </div>
       </div>
   </div>
 </template>
 
 <script>
 import Top from '@/base/Top.vue'
-import {getBooks,removeBooks} from '../api'
+import {removeBooks,pagination} from '../api'
 export default {
   components:{Top},
   props:{},
   data(){
     return {
-      books: []
+      books: [],
+      offset: 0,     // 代表的是偏移量
+      hasMore: true,  // 代表的是 是否有数据
+      isLoading: false // 避免多次点击“加载更多”，如果数据返回比较慢，那么重复点击会出问题
     }
   },
   watch:{},
-  computed:{},
+  computed:{
+    
+  },
   methods:{
+
+    // 【注意】 getbooks接口是一下子把所有的数据取过来，如果做数据下拉加载的话，这个方法不合适
+    // 要用 pagination 
+
+    // 这里是 *** 下拉刷新 *** 
     async getData(){
-      let {data:books} = await getBooks();
-      this.books = books;
+      /* let {data:books} = await getBooks();
+      this.books = books; */
+
+      // ***下拉刷新 **** 的缘故 用api -- pagination
+      if(this.hasMore && !this.isLoading){ // 有更多的时候 才去获取
+
+        //正在加载 ，状态改变
+        this.loading = true;
+        let {data:books} = await pagination(this.offset);
+        this.books = [...this.books,...books.books]; // 【注意】这里 已经获取的数组必须和最新取出的数据合并，而不是替换
+        this.hasMore = books.hasMore; // 获取数据之后还要获取数据中的hasMore 可能之后就是false
+
+        // 数据取出完毕，当前状态不加载 ，状态再次改变
+
+        this.loading=false; // 数据正在加载的时候 不能执行再取数据，如果数据取出来之后，这个状态就是false
+
+        this.offset = this.books.length; // 维护偏移量就是总书的长度 
+      }
+      
+
+
+
     },
     async removeBook(id){ // 删除图书
       await removeBooks(id);  
+    },
+
+    // 【加载更多】 按钮事件
+    loadMore(){
+      this.getData();
+    },
+
+    // 【下拉刷新】
+    // *** 下拉加载 *** 
+    // scrollTop + 容器的可视高度（this.$refs.content.clientHeight）+ 50 == 容器的全部高度 (this.$refs.content.scrollHeight)
+    //
+    pullDownLoadMore () {
+
+
+      // 【节流】 这里一旦滚动就会出现很多次的不必要的重新获取，浪费性能，这里用到节流
+      // settimeout 
+      //let {a,b,c} = this.$refs.content;
+   /*    console.log(this.$refs.content.scrollTop);  
+      console.log(this.$refs.content.clientHeight);  
+      console.log(this.$refs.content.scrollHeight); */
+      console.dir(this.$refs.content);  
+
+
+
+
     }
+      
+
   },
   created(){
     this.getData();// 获取全部图书
   },
-  mounted(){}
+  mounted(){
+
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -103,6 +166,16 @@ export default {
         }
       }
     }
+  }
+
+  .load-more {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    background: #f0f0f0;
   }
 }
 </style>

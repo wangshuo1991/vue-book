@@ -91,3 +91,10 @@ transition 是过渡动画的标签，但是这个标签是需要加在keep-aliv
  </transition>
 
 ```
+
+## 下拉刷新
+
+- 默认每次下拉，更新5条数据；前端要告诉后台，现在从第几条给数据；
+- /page?offset=5  意思是从5开始取到10;
+- 后台返回前端还要告诉是否有更多的数据 hasMore: false;
+- 在server.js 开始写后台
