@@ -64,14 +64,11 @@ export default {
 
         // 数据取出完毕，当前状态不加载 ，状态再次改变
 
-        this.loading=false; // 数据正在加载的时候 不能执行再取数据，如果数据取出来之后，这个状态就是false
+        this.loading = false; // 数据正在加载的时候 不能执行再取数据，如果数据取出来之后，这个状态就是false
 
         this.offset = this.books.length; // 维护偏移量就是总书的长度 
       }
       
-
-
-
     },
     async removeBook(id){ // 删除图书
       await removeBooks(id);  
@@ -88,24 +85,24 @@ export default {
     //
     pullDownLoadMore () {
 
-
       // 【节流】 这里一旦滚动就会出现很多次的不必要的重新获取，浪费性能，这里用到节流
-      // settimeout 
-      //let {a,b,c} = this.$refs.content;
-   /*    console.log(this.$refs.content.scrollTop);  
-      console.log(this.$refs.content.clientHeight);  
-      console.log(this.$refs.content.scrollHeight); */
-      console.dir(this.$refs.content);  
-
-
-
-
+      // 【节流】 -> 设置 settimeout 进入开一个定时器，下次触发时将上一次的定时器清除掉 
+      //  settimeout 
+      // 【注意】 这个符合条件
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => { 
+        let {scrollHeight,clientHeight,scrollTop} = this.$refs.content; 
+        if(clientHeight+scrollTop+50>scrollHeight){
+          this.getData(); // 下拉 符合上述条件后 获取数据
+        }
+      }, 10);
+      
     }
       
 
   },
   created(){
-    this.getData();// 获取全部图书
+    this.getData();  // 获取全部图书
   },
   mounted(){
 
