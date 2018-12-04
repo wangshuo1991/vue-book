@@ -9,7 +9,7 @@
           :key="index"
           :to="{name:'detail',params:{bid:book.bookId}}"
           tag="li">
-            <img :src="book.bookCover" alt="">
+            <img v-lazy="book.bookCover" alt="">
             <div class="book">
               <h4>{{book.bookName}}</h4>
               <p class="book-info">{{book.bookInfo}}</p>

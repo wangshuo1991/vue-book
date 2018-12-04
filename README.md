@@ -98,3 +98,15 @@ transition 是过渡动画的标签，但是这个标签是需要加在keep-aliv
 - /page?offset=5  意思是从5开始取到10;
 - 后台返回前端还要告诉是否有更多的数据 hasMore: false;
 - 在server.js 开始写后台
+
+
+
+## 图片懒加载 
+- vue-lazyload 
+- npm i vue-lazyload
+- [具体使用方法](https://github.com/hilongjw/vue-lazyload) 
+
+
+
+## 发布项目
+- 
