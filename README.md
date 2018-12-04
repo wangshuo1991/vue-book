@@ -104,9 +104,77 @@ transition 是过渡动画的标签，但是这个标签是需要加在keep-aliv
 ## 图片懒加载 
 - vue-lazyload 
 - npm i vue-lazyload
-- [具体使用方法](https://github.com/hilongjw/vue-lazyload) 
+- [具体使用方法vue-lazyload - git](https://github.com/hilongjw/vue-lazyload) 
+  ```
+    import Vue from 'vue'
+    import App from './App.vue'
+    import VueLazyload from 'vue-lazyload'
+
+    Vue.use(VueLazyload)
+
+    // or with options
+    Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: 'dist/error.png',
+    loading: 'dist/loading.gif',
+    attempt: 1
+    })
+
+    new Vue({
+    el: 'body',
+    components: {
+        App
+    }
+    })
+
+    -------------template------------------
+
+    <ul>
+        <li v-for="img in list">
+            <img v-lazy="img.src" >
+        </li>
+    </ul>
+
+  ```
 
 
 
-## 发布项目
-- 
+## coding split 代码分割 优化  路由懒加载
+- 路由懒加载
+某个组件加载的时候 只加载和本组件相关的内容  ，路由懒加载 是把每个路由的component变成一个箭头函数，成为异步加载。
+```
+    ----------- route.js -------------
+
+    import Vue from 'vue'
+    import Router from 'vue-router'
+
+    Vue.use(Router);
+    const Home = ()=>import("../components/Home.vue");
+    const List = ()=>import("../components/List.vue");
+    const Collect = ()=>import("../components/Collect.vue");
+    const Add = ()=>import("../components/Add.vue");
+    const Detail = ()=>import("../components/Detail.vue");    
+
+
+    {
+        path: '/home',
+        component: Home
+    }
+
+```
+
+## 上线
+- 打包 npm run build
+- 打包之后 创建server，直接访问index.html 
+
+
+##vuex
+主要是为了大型项目，主要是状态（数据）管理（统计管理），将数据同一管理。
+```
+    import Vue from 'vue';
+    import Vuex from 'vuex';
+    
+```
+
+
+
