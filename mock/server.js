@@ -1,5 +1,5 @@
-let http = require('http');
-let fs = require('fs');
+const http = require('http');
+const fs = require('fs');
 let url = require('url');
 
 // 获取轮播图 /sliders
