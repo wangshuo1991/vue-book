@@ -45,7 +45,7 @@ http.createServer((req,res)=>{
         });
         return;
     }
-
+    
     if(pathname === '/sliders'){
         res.setHeader('Content-Type','application/json;charset=utf-8');
         res.end(JSON.stringify(sliders));
